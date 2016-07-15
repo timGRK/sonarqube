@@ -17,10 +17,12 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+ /* @flow */
 import React from 'react';
 import { translate } from '../../../helpers/l10n';
+import { Task as TaskType } from '../types';
 
-const TaskCancelButton = ({ task, onCancelTask }) => {
+const TaskCancelButton = ({ task, onCancelTask }: { task: TaskType, onCancelTask: any }) => {
   function handleClick (e) {
     e.preventDefault();
     onCancelTask(task);

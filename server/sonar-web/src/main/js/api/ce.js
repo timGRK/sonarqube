@@ -17,20 +17,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+ /* @flow */
 import $ from 'jquery';
 import { getJSON, post } from '../helpers/request';
 
-export function getQueue (data) {
+export function getQueue (data: any) {
   const url = window.baseUrl + '/api/ce/queue';
   return $.get(url, data);
 }
 
-export function getActivity (data) {
+export function getActivity (data: any) {
   const url = window.baseUrl + '/api/ce/activity';
   return $.get(url, data);
 }
 
-export function getStatus (componentId) {
+export function getStatus (componentId: ?string) {
   const url = '/api/ce/activity_status';
   const data = {};
   if (componentId) {
@@ -39,12 +40,12 @@ export function getStatus (componentId) {
   return getJSON(url, data);
 }
 
-export function getTask (id) {
+export function getTask (id: string) {
   const url = '/api/ce/task';
   return getJSON(url, { id }).then(r => r.task);
 }
 
-export function cancelTask (id) {
+export function cancelTask (id: string) {
   const url = '/api/ce/cancel';
   return post(url, { id }).then(
       getTask.bind(null, id),
@@ -57,7 +58,7 @@ export function cancelAllTasks () {
   return post(url);
 }
 
-export function getTasksForComponent (componentId) {
+export function getTasksForComponent (componentId: string) {
   const url = '/api/ce/component';
   const data = { componentId };
   return getJSON(url, data);

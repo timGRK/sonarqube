@@ -33,6 +33,7 @@
     "expose-loader": "0.7.1",
     "express": "4.13.4",
     "express-http-proxy": "0.6.0",
+    "flow-bin": "0.29.0",
     "glob": "5.0.15",
     "gulp": "3.9.0",
     "gulp-autoprefixer": "3.1.0",
@@ -85,9 +86,10 @@
   "scripts": {
     "build-fast": "gulp build:dev",
     "build": "gulp build",
-    "test": "mocha --opts tests/mocha.opts src/main/js/**/__tests__/**/*",
+    "test": "npm run typecheck && mocha --opts tests/mocha.opts src/main/js/**/__tests__/**/*",
     "coverage": "nyc --exclude tests,**/__tests__/** mocha --opts tests/mocha.opts src/main/js/**/__tests__/**/* && nyc report --reporter lcov --report-dir target/coverage",
     "lint": "eslint src/main/js",
+    "typecheck": "flow check src/main/js",
     "dev": "NODE_ENV=hot node devServer"
   },
   "engines": {

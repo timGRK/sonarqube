@@ -17,6 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+ /* @flow */
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 
@@ -28,6 +29,7 @@ import TaskExecutionTime from './TaskExecutionTime';
 import TaskCancelButton from './TaskCancelButton';
 import TaskLogsLink from './TaskLogsLink';
 import { STATUSES } from './../constants';
+import { Task as TaskType } from '../types';
 
 export default class Task extends React.Component {
   static propTypes = {
@@ -40,11 +42,11 @@ export default class Task extends React.Component {
     onFilterTask: React.PropTypes.func.isRequired
   };
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate (nextProps: any, nextState: any) {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  handleFilterTask (task, e) {
+  handleFilterTask (task: TaskType, e: any) {
     e.preventDefault();
     this.props.onFilterTask(task);
   }

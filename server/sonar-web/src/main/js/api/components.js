@@ -17,34 +17,35 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+ /* @flow */
 import { getJSON, postJSON, post } from '../helpers/request.js';
 
-export function getComponents (data) {
+export function getComponents (data: any) {
   const url = '/api/components/search';
   return getJSON(url, data);
 }
 
-export function getProvisioned (data) {
+export function getProvisioned (data: any) {
   const url = '/api/projects/provisioned';
   return getJSON(url, data);
 }
 
-export function getGhosts (data) {
+export function getGhosts (data: any) {
   const url = '/api/projects/ghosts';
   return getJSON(url, data);
 }
 
-export function deleteComponents (data) {
+export function deleteComponents (data: any) {
   const url = '/api/projects/bulk_delete';
   return post(url, data);
 }
 
-export function createProject (data) {
+export function createProject (data: any) {
   const url = '/api/projects/create';
   return postJSON(url, data);
 }
 
-export function getComponentTree (strategy, componentKey, metrics = [], additional = {}) {
+export function getComponentTree (strategy: string, componentKey:string, metrics: string[] = [], additional: any = {}) {
   const url = '/api/measures/component_tree';
   const data = Object.assign({}, additional, {
     baseComponentKey: componentKey,
@@ -54,33 +55,33 @@ export function getComponentTree (strategy, componentKey, metrics = [], addition
   return getJSON(url, data);
 }
 
-export function getChildren (componentKey, metrics, additional) {
+export function getChildren (componentKey: string, metrics: string[], additional: any) {
   return getComponentTree('children', componentKey, metrics, additional);
 }
 
-export function getComponentLeaves (componentKey, metrics, additional) {
+export function getComponentLeaves (componentKey: string, metrics: string[], additional: any) {
   return getComponentTree('leaves', componentKey, metrics, additional);
 }
 
-export function getComponent (componentKey, metrics = []) {
+export function getComponent (componentKey: string, metrics: string[] = []) {
   const url = '/api/measures/component';
   const data = { componentKey, metricKeys: metrics.join(',') };
   return getJSON(url, data).then(r => r.component);
 }
 
-export function getTree (baseComponentKey, options = {}) {
+export function getTree (baseComponentKey: string, options: any = {}) {
   const url = '/api/components/tree';
   const data = Object.assign({}, options, { baseComponentKey });
   return getJSON(url, data);
 }
 
-export function getParents ({ id, key }) {
+export function getParents ({ id, key }: { id: string, key: string }) {
   const url = '/api/components/show';
   const data = id ? { id } : { key };
   return getJSON(url, data).then(r => r.ancestors);
 }
 
-export function getBreadcrumbs ({ id, key }) {
+export function getBreadcrumbs ({ id, key }: { id: string, key: string }) {
   const url = '/api/components/show';
   const data = id ? { id } : { key };
   return getJSON(url, data).then(r => {
@@ -89,7 +90,7 @@ export function getBreadcrumbs ({ id, key }) {
   });
 }
 
-export function getProjectsWithInternalId (query) {
+export function getProjectsWithInternalId (query: any) {
   const url = '/api/resources/search';
   const data = {
     f: 's2',
@@ -99,7 +100,7 @@ export function getProjectsWithInternalId (query) {
   return getJSON(url, data).then(r => r.results);
 }
 
-export function getMyProjects (data) {
+export function getMyProjects (data: any) {
   const url = '/api/projects/search_my_projects';
   return getJSON(url, data);
 }

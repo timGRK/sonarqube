@@ -140,16 +140,21 @@ public class ComponentService {
     }
   }
 
+  public void bulkUpdateKey(DbSession dbSession, String projectKey, String stringToReplace, String replacementString) {
+    ComponentDto project = getByKey(dbSession, projectKey);
+    userSession.checkComponentUuidPermission(UserRole.ADMIN, project.projectUuid());
+    checkIsProjectOrModule(project);
+    dbClient.resourceKeyUpdaterDao().bulkUpdateKey(dbSession, project.uuid(), stringToReplace, replacementString);
+  }
+
   public void bulkUpdateKey(String projectKey, String stringToReplace, String replacementString) {
     // Open a batch session
-    DbSession session = dbClient.openSession(true);
+    DbSession dbSession = dbClient.openSession(true);
     try {
-      ComponentDto project = getByKey(session, projectKey);
-      userSession.checkComponentUuidPermission(UserRole.ADMIN, project.projectUuid());
-      dbClient.resourceKeyUpdaterDao().bulkUpdateKey(session, project.uuid(), stringToReplace, replacementString);
-      session.commit();
+      bulkUpdateKey(dbSession, projectKey, stringToReplace, replacementString);
+      dbSession.commit();
     } finally {
-      session.close();
+      dbSession.close();
     }
   }
 

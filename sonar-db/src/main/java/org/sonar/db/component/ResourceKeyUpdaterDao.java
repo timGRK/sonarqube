@@ -19,6 +19,7 @@
  */
 package org.sonar.db.component;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -31,6 +32,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.sonar.db.Dao;
 import org.sonar.db.DbSession;
 import org.sonar.db.MyBatis;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.sonar.core.component.ComponentKeys.isValidModuleKey;
 
 /**
  * Class used to rename the key of a project and its resources.
@@ -139,11 +143,11 @@ public class ResourceKeyUpdaterDao implements Dao {
 
   private static void checkNewNameOfAllModules(Set<ResourceDto> modules, String stringToReplace, String replacementString, ResourceKeyUpdaterMapper mapper) {
     for (ResourceDto module : modules) {
-      String newName = computeNewKey(module, stringToReplace, replacementString);
-      if (mapper.countResourceByKey(newName) > 0) {
-        throw new IllegalStateException("Impossible to update key: a resource with \"" + newName + "\" key already exists.");
+      String newKey = computeNewKey(module, stringToReplace, replacementString);
+      checkArgument(isValidModuleKey(newKey), "Malformed key for '%s'. Allowed characters are alphanumeric, '-', '_', '.' and ':', with at least one non-digit.", newKey);
+      if (mapper.countResourceByKey(newKey) > 0) {
+        throw new IllegalArgumentException("Impossible to update key: a component with key \"" + newKey + "\" already exists.");
       }
     }
   }
-
 }

@@ -32,11 +32,13 @@ import static org.sonarqube.ws.client.component.ComponentsWsParameters.ACTION_SH
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.ACTION_TREE;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_BASE_COMPONENT_ID;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_BASE_COMPONENT_KEY;
+import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_FROM;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_ID;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_KEY;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_NEW_KEY;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_QUALIFIERS;
 import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_STRATEGY;
+import static org.sonarqube.ws.client.component.ComponentsWsParameters.PARAM_TO;
 
 public class ComponentsService extends BaseService {
 
@@ -78,6 +80,16 @@ public class ComponentsService extends BaseService {
       .setParam(PARAM_ID, request.getId())
       .setParam(PARAM_KEY, request.getKey())
       .setParam(PARAM_NEW_KEY, request.getNewKey());
+
+    call(post);
+  }
+
+  public void bulkUpdateKey(BulkUpdateWsRequest request) {
+    PostRequest post = new PostRequest(path("bulk_update_key"))
+      .setParam(PARAM_ID, request.getId())
+      .setParam(PARAM_KEY, request.getKey())
+      .setParam(PARAM_FROM, request.getFrom())
+      .setParam(PARAM_TO, request.getTo());
 
     call(post);
   }
